@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-@Time    : 2022/8/23 13:12
-@Author  : itlubber
-@Site    : itlubber.art
-"""
-
 from distutils.core import setup
 from Cython.Build import cythonize
 

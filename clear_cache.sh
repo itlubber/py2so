@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PYSTRING="$(find . | grep -E "(__pycache__|\.pyc|\.pyo$)")"
+PYSTRING="$(find . | grep -E "(__pycache__|\.pyc|\.pyo|\.c$)")"
 IPYNBSTRING="$(find . | grep -E "(ipynb_checkpoints|\.ipynb$)")"
 
 # 删除 __pycache__ 缓存文件
@@ -9,7 +9,7 @@ if [ -n "$PYSTRING" ]; then
   echo "-----------------------------------------------------"
   echo "$PYSTRING"
   echo "-----------------------------------------------------"
-  find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+  find . | grep -E "(__pycache__|\.pyc|\.pyo|\.c$)" | xargs rm -rf
 else
   echo "不存在 __pycache__ 缓存文件"
 fi

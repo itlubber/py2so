@@ -5,8 +5,8 @@
 @Site    : itlubber.art
 """
 
-import sys
-sys.path.append("build/lib.macosx-10.9-x86_64-3.8") # 将编译后的包路径添加到python的包路径中
+# import sys
+# sys.path.append("build/lib.macosx-10.9-x86_64-3.8") # 将编译后的包路径添加到python的包路径中
 
 
 from example.your_codes import itlubber_py2so # 导入需要的包
