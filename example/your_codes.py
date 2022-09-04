@@ -5,6 +5,8 @@
 @Site    : itlubber.art
 """
 
-def py2so_code(msg):
-    
+def itlubber_py2so(msg):
+    """
+    根据传入 msg, 返回处理后的结果
+    """
     return "py2so : {}".format(msg)
