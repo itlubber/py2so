@@ -18,7 +18,7 @@ build_dir = "build"
 build_tmp_dir = build_dir + "/temp"
 
 
-def getpy(basepath, name='', excepts=[], copyOther=False, delC=False, starttime=None):
+def build_list(basepath, name='', excepts=[], copyOther=False, delC=False, starttime=None):
     """
     获取py文件的路径
     :param basepath: 根路径
@@ -33,7 +33,7 @@ def getpy(basepath, name='', excepts=[], copyOther=False, delC=False, starttime=
         ffile = os.path.join(fullpath, fname)
         
         if os.path.isdir(ffile) and fname != build_dir and not fname.startswith('.'):
-            for f in getpy(basepath, name=fname, copyOther=copyOther, delC=delC, starttime=starttime):
+            for f in build_list(basepath, name=fname, copyOther=copyOther, delC=delC, starttime=starttime):
                 yield f
                 
         elif os.path.isfile(ffile):
@@ -76,19 +76,19 @@ if __name__ == '__main__':
     excepts_files = ["README.md", "LICENSE", ".gitignore", "setup.py"]
 
     # 编译 python 文件
-    module_list = list(getpy(currdir, starttime=starttime))
+    module_list = list(build_list(currdir, starttime=starttime))
     module_list = [py for py in module_list if py not in excepts_build]
     setup(ext_modules = cythonize(module_list), script_args=["build_ext", "-b", build_dir, "-t", build_tmp_dir])
 
     # 拷贝其他文件
-    list(getpy(currdir, excepts=excepts_files, copyOther=True, starttime=starttime))
+    list(build_list(currdir, excepts=excepts_files, copyOther=True, starttime=starttime))
     
     # 拷贝不编译的py文件
     for file in excepts_build:
         copy_file(file)
 
     # 删除编译产生的中间文件
-    module_list = list(getpy(currdir, delC=True, starttime=starttime))
+    module_list = list(build_list(currdir, delC=True, starttime=starttime))
     if os.path.exists(build_tmp_dir):
         shutil.rmtree(build_tmp_dir)
 
