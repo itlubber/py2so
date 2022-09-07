@@ -3,6 +3,7 @@
 本仓库从易到难，简单梳理了.so文件编译的几种方案：最原始的编译方法、不删除中间文件的编译方法和相对集成的编译方案。推荐直接食用第三种集成方案，个人目前使用第二种。
 
 > 博客文章地址: https://itlubber.art/archives/python-py2so
+> 微信公众号文章地址: https://mp.weixin.qq.com/s/LgDwJGl34ew3qgLXSJrIuA
 
 
 ## 项目结构
