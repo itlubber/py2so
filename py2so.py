@@ -34,7 +34,7 @@ def build_list(basepath, name='', excepts=[], copyOther=False, delC=False, start
         
         if os.path.isdir(ffile) and fname != build_dir and not fname.startswith('.'):
             for f in build_list(basepath, name=fname, copyOther=copyOther, delC=delC, starttime=starttime):
-                yield f
+                yield os.path.join(ffile, f)
                 
         elif os.path.isfile(ffile):
             ext = os.path.splitext(fname)[1]
