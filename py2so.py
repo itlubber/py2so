@@ -9,6 +9,7 @@ import os
 import sys
 import time
 import shutil
+import traceback
 from distutils.core import setup
 from Cython.Build import cythonize
 
@@ -75,21 +76,24 @@ if __name__ == '__main__':
     # 不复制到编译后的非 python 文件
     excepts_files = ["README.md", "LICENSE", ".gitignore", "setup.py"]
 
-    # 编译 python 文件
-    module_list = list(build_list(currdir, starttime=starttime))
-    module_list = [py for py in module_list if py not in excepts_build]
-    setup(ext_modules = cythonize(module_list), script_args=["build_ext", "-b", build_dir, "-t", build_tmp_dir])
+        try:
+        # 编译 python 文件
+        module_list = list(build_list(currdir, starttime=starttime))
+        module_list = sorted([py for py in module_list if py not in excepts_build], lambda f: os.path.getsize(f))
+        setup(ext_modules=cythonize(module_list, language_level="3"), script_args=["build_ext", "-b", build_dir, "-t", build_tmp_dir])
+    except:
+        traceback.print_exc()
+    finally:
+        # 拷贝其他文件
+        list(build_list(currdir, excepts=excepts_files, copyOther=True, starttime=starttime))
 
-    # 拷贝其他文件
-    list(build_list(currdir, excepts=excepts_files, copyOther=True, starttime=starttime))
-    
-    # 拷贝不编译的py文件
-    for file in excepts_build:
-        copy_file(file)
+        # 拷贝不编译的py文件
+        for file in excepts_build:
+            copy_file(file)
 
-    # 删除编译产生的中间文件
-    module_list = list(build_list(currdir, delC=True, starttime=starttime))
-    if os.path.exists(build_tmp_dir):
-        shutil.rmtree(build_tmp_dir)
+        # 删除编译产生的中间文件
+        module_list = list(build_list(currdir, delC=True, starttime=starttime))
+        if os.path.exists(build_tmp_dir):
+            shutil.rmtree(build_tmp_dir)
 
-    print ("complate! time:", time.time()-starttime, 's')
+        print("complate! time:", time.time() - starttime, 's')
